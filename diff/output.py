@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import List
+from typing import List, Dict
 from diff.diff_data import DiffData
 import os
 from jinja2 import Environment, PackageLoader
@@ -22,8 +22,8 @@ env = Environment(
 
 def generate_output(
     output_path: Path,
-    base_files: dict,
-    secondary_files: dict
+    base_files: Dict[str, List[str]],
+    secondary_files: Dict[str, List[str]]
 ):
     # Ensure creation and cleaning of output folder
     _ensure_output_folder(output_path=output_path)
@@ -78,8 +78,8 @@ def _generate_index(
     return
 
 def _generate_htmls(
-    base_files: dict,
-    secondary_files: dict
+    base_files: Dict[str, List[str]],
+    secondary_files: Dict[str, List[str]]
 ) -> List[DiffData]:
     htmls = []
     # Generate pairings

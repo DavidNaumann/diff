@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Tuple, List
+from typing import Tuple, List, Dict
 from multiprocessing import Pool
 import re
 
@@ -7,7 +7,7 @@ def collect_files(
     base_path: Path,
     secondary_path: Path,
     regex: str
-) -> Tuple[dict, dict]:
+) -> Tuple[Dict[str, List[str]], Dict[str, List[str]]]:
     base_files = _collect_files_from_path(base_path, regex=regex)
     secondary_files = _collect_files_from_path(secondary_path, regex=regex)
     keys = set(base_files.keys()).union(set(secondary_files.keys()))
