@@ -26,7 +26,7 @@ class DiffScript:
             '--regex',
             required=False,
             type=str,
-            default='.*'
+            default=''
         )
         parser.add_argument(
             '-o',

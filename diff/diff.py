@@ -6,7 +6,7 @@ from diff.output import generate_output
 def generate_diff(
     base_path: Path,
     secondary_path: Path,
-    regex: Optional[str] = '.*',
+    regex: Optional[str] = '',
     output_path: Optional[Path] = Path('htmldiff')
 ):
     # Collect all files
