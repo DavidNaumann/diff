@@ -3,6 +3,7 @@ from typing import Tuple, List, Dict
 from multiprocessing import Pool
 import re
 
+
 def collect_files(
     base_path: Path,
     secondary_path: Path,
@@ -31,12 +32,14 @@ def _collect_files_from_path(
     files = _read_files(file_paths=file_paths)
     return files
 
+
 def _get_files_in_path(
     path: Path
 ):
     return [
         file_path for file_path in path.iterdir() if file_path.is_file()
     ]
+
 
 def _filter_file_path_by_regex(
     file_paths: List[Path],
@@ -49,6 +52,7 @@ def _filter_file_path_by_regex(
         ]
     return file_paths
 
+
 def _read_file(
     file_path: Path
 ) -> Tuple[Path, List[str]]:
@@ -56,6 +60,7 @@ def _read_file(
     with open(file_path, 'r') as f:
         lines = f.readlines()
     return (file_path, lines)
+
 
 def _read_files(
     file_paths: List[Path]

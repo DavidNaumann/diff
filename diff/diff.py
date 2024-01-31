@@ -3,6 +3,7 @@ from pathlib import Path
 from diff.file import collect_files
 from diff.output import generate_output
 
+
 def generate_diff(
     base_path: Path,
     secondary_path: Path,

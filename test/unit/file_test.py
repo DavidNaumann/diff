@@ -9,6 +9,7 @@ from diff.file import (
 from unittest.mock import mock_open, patch
 from pathlib import Path
 
+
 def test_wildcard_filter_by_regex():
     paths = [
         Path("test.ls"),
@@ -18,6 +19,7 @@ def test_wildcard_filter_by_regex():
         file_paths=paths
     )
     assert paths == new_paths
+
 
 def test_file_filter_by_regex():
     paths = [
@@ -32,10 +34,12 @@ def test_file_filter_by_regex():
     assert len(new_paths) == 1
     assert new_paths[0] == paths[1]
 
+
 def test_read_file():
     with patch('builtins.open', mock_open()) as mocked_file:
         _read_file('test.txt')
     mocked_file.assert_called_with('test.txt', 'r')
+
 
 def test_read_files():
     path = Path(__file__)
@@ -43,6 +47,7 @@ def test_read_files():
         file_paths=[path]
     )
     assert path.name in files
+
 
 def test_get_files_in_path():
     file_path = Path(__file__)
@@ -52,6 +57,7 @@ def test_get_files_in_path():
     )
     assert len(paths) != 0
     assert file_path in paths
+
 
 def test_collect_files_from_path():
     file_path = Path(__file__)
@@ -64,6 +70,7 @@ def test_collect_files_from_path():
     assert len(files) != 0
     assert file_path.name in files
     assert len(files[file_path.name]) > 0
+
 
 def test_collect_files():
     file_path = Path(__file__)
