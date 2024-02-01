@@ -108,6 +108,7 @@ def _generate_html(
         fromlines=base_file,
         tolines=secondary_file
     )
+    table = table.replace('class="diff"', 'class="table diff"')
     ratio = difflib.SequenceMatcher(
         a=base_file,
         b=secondary_file

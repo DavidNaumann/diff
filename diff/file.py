@@ -57,7 +57,7 @@ def _read_file(
     file_path: Path
 ) -> Tuple[Path, List[str]]:
     lines = []
-    with open(file_path, 'r') as f:
+    with open(file_path, 'r', errors='ignore') as f:
         lines = f.readlines()
     return (file_path, lines)
 

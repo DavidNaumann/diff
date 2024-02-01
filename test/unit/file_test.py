@@ -38,7 +38,7 @@ def test_file_filter_by_regex():
 def test_read_file():
     with patch('builtins.open', mock_open()) as mocked_file:
         _read_file('test.txt')
-    mocked_file.assert_called_with('test.txt', 'r')
+    mocked_file.assert_called_with('test.txt', 'r', errors='ignore')
 
 
 def test_read_files():
@@ -72,13 +72,28 @@ def test_collect_files_from_path():
     assert len(files[file_path.name]) > 0
 
 
-def test_collect_files():
+def test_collect_same_files():
     file_path = Path(__file__)
     dir_path = file_path.parent
+    secondary_path = dir_path
     regex = ''
     base_files, secondary_files = collect_files(
         base_path=dir_path,
-        secondary_path=dir_path,
+        secondary_path=secondary_path,
+        regex=regex
+    )
+    assert file_path.name in base_files
+    assert file_path.name in secondary_files
+
+
+def test_collect_different_files():
+    file_path = Path(__file__)
+    dir_path = file_path.parent
+    secondary_path = file_path.cwd()
+    regex = ''
+    base_files, secondary_files = collect_files(
+        base_path=dir_path,
+        secondary_path=secondary_path,
         regex=regex
     )
     assert file_path.name in base_files
