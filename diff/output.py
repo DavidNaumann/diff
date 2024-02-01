@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import List
+from typing import List, Dict
 from diff.diff_data import DiffData
 import os
 from jinja2 import Environment, PackageLoader
@@ -20,10 +20,11 @@ env = Environment(
     loader=PackageLoader("diff")
 )
 
+
 def generate_output(
     output_path: Path,
-    base_files: dict,
-    secondary_files: dict
+    base_files: Dict[str, List[str]],
+    secondary_files: Dict[str, List[str]]
 ):
     # Ensure creation and cleaning of output folder
     _ensure_output_folder(output_path=output_path)
@@ -47,6 +48,7 @@ def generate_output(
     )
     return
 
+
 def _ensure_output_folder(
     output_path: Path,
 ):
@@ -54,6 +56,7 @@ def _ensure_output_folder(
     file_paths = [file_path for file_path in output_path.iterdir() if file_path.is_file()]
     for file_path in file_paths:
         os.remove(file_path)
+
 
 def _generate_static_files(
     output_path: Path
@@ -64,6 +67,7 @@ def _generate_static_files(
         shutil.copyfile(static_path, os.path.join(output_path, static_file))
     with open(output_path.joinpath('.gitignore'), 'w') as gitignore:
         gitignore.write("*\n")
+
 
 def _generate_index(
     output_path: Path,
@@ -77,9 +81,10 @@ def _generate_index(
         index_file.write(content)
     return
 
+
 def _generate_htmls(
-    base_files: dict,
-    secondary_files: dict
+    base_files: Dict[str, List[str]],
+    secondary_files: Dict[str, List[str]]
 ) -> List[DiffData]:
     htmls = []
     # Generate pairings
@@ -99,21 +104,23 @@ def _generate_html(
     base_file: List[str],
     secondary_file: List[str]
 ) -> DiffData:
-        table = difflib.HtmlDiff().make_table(
-            fromlines=base_file,
-            tolines=secondary_file
-        )
-        ratio = difflib.SequenceMatcher(
-            a=base_file,
-            b=secondary_file
-        ).quick_ratio()
-        diff_data = DiffData(
-            file_name=file_name,
-            link=file_name+".html",
-            percent_match=ratio*100,
-            table=table
-        )
-        return diff_data
+    table = difflib.HtmlDiff().make_table(
+        fromlines=base_file,
+        tolines=secondary_file
+    )
+    table = table.replace('class="diff"', 'class="table diff"')
+    ratio = difflib.SequenceMatcher(
+        a=base_file,
+        b=secondary_file
+    ).quick_ratio()
+    diff_data = DiffData(
+        file_name=file_name,
+        link=file_name+".html",
+        percent_match=ratio*100,
+        table=table
+    )
+    return diff_data
+
 
 def _generate_diff_pages(
     output_path: Path,
@@ -125,6 +132,7 @@ def _generate_diff_pages(
         for _ in map_result.get():
             pass
     return
+
 
 def _generate_diff_page(
     diff_data: DiffData,

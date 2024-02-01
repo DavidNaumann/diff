@@ -2,6 +2,7 @@ import argparse
 from pathlib import Path
 from diff.diff import generate_diff
 
+
 class DiffScript:
     def __init__(self) -> None:
         parser = argparse.ArgumentParser(
@@ -26,7 +27,7 @@ class DiffScript:
             '--regex',
             required=False,
             type=str,
-            default='.*'
+            default=''
         )
         parser.add_argument(
             '-o',
@@ -55,6 +56,7 @@ class DiffScript:
 
 def main():
     DiffScript().run()
+
 
 if __name__ == "__main__":
     main()
